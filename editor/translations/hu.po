@@ -66,6 +66,35 @@ msgstr ""
 msgid "On call to '%s':"
 msgstr "'%s' hívásánál:"
 
+#: core/ustring.cpp
+msgid "B"
+msgstr ""
+
+#: core/ustring.cpp
+msgid "KiB"
+msgstr ""
+
+#: core/ustring.cpp
+#, fuzzy
+msgid "MiB"
+msgstr "Mixelés"
+
+#: core/ustring.cpp
+msgid "GiB"
+msgstr ""
+
+#: core/ustring.cpp
+msgid "TiB"
+msgstr ""
+
+#: core/ustring.cpp
+msgid "PiB"
+msgstr ""
+
+#: core/ustring.cpp
+msgid "EiB"
+msgstr ""
+
 #: editor/animation_bezier_editor.cpp
 msgid "Free"
 msgstr "Ingyenes"
@@ -353,6 +382,7 @@ msgstr "Létrehoz %d ÚJ nyomvonalat és beilleszti a kulcsokat?"
 #: editor/plugins/particles_editor_plugin.cpp
 #: editor/plugins/visual_shader_editor_plugin.cpp
 #: editor/script_create_dialog.cpp
+#: modules/visual_script/visual_script_editor.cpp
 msgid "Create"
 msgstr "Létrehozás"
 
@@ -486,15 +516,12 @@ msgstr ""
 msgid "Warning: Editing imported animation"
 msgstr ""
 
-#: editor/animation_track_editor.cpp editor/plugins/script_text_editor.cpp
-#: scene/gui/line_edit.cpp scene/gui/text_edit.cpp
-msgid "Select All"
-msgstr "Összes Kijelölése"
-
 #: editor/animation_track_editor.cpp
 #, fuzzy
-msgid "Select None"
-msgstr "Kiválasztó Mód"
+msgid "Select an AnimationPlayer node to create and edit animations."
+msgstr ""
+"Válasszon egy AnimationPlayer-t a Jelenetfából, hogy animációkat "
+"szerkeszthessen."
 
 #: editor/animation_track_editor.cpp
 msgid "Only show tracks from nodes selected in tree."
@@ -633,8 +660,9 @@ msgid "Scale Ratio:"
 msgstr "Méretezési arány:"
 
 #: editor/animation_track_editor.cpp
-msgid "Select tracks to copy:"
-msgstr ""
+#, fuzzy
+msgid "Select Tracks to Copy"
+msgstr "Átmenet beállítása erre:"
 
 #: editor/animation_track_editor.cpp editor/editor_log.cpp
 #: editor/editor_properties.cpp
@@ -644,6 +672,11 @@ msgstr ""
 #: scene/gui/line_edit.cpp scene/gui/text_edit.cpp
 msgid "Copy"
 msgstr "Másolás"
+
+#: editor/animation_track_editor.cpp
+#, fuzzy
+msgid "Select All/None"
+msgstr "Kiválasztó Mód"
 
 #: editor/animation_track_editor_plugins.cpp
 #, fuzzy
@@ -715,6 +748,10 @@ msgstr "Csak Kiválsztás"
 #: editor/plugins/text_editor.cpp
 msgid "Standard"
 msgstr ""
+
+#: editor/code_editor.cpp editor/plugins/script_editor_plugin.cpp
+msgid "Toggle Scripts Panel"
+msgstr "Szkript Panel Megjelenítése"
 
 #: editor/code_editor.cpp editor/plugins/canvas_item_editor_plugin.cpp
 #: editor/plugins/texture_region_editor_plugin.cpp
@@ -833,7 +870,8 @@ msgstr "Csatlakoztató Jelzés:"
 #: editor/plugins/canvas_item_editor_plugin.cpp
 #: editor/plugins/resource_preloader_editor_plugin.cpp
 #: editor/plugins/script_editor_plugin.cpp
-#: editor/plugins/sprite_frames_editor_plugin.cpp editor/project_export.cpp
+#: editor/plugins/sprite_frames_editor_plugin.cpp
+#: editor/plugins/version_control_editor_plugin.cpp editor/project_export.cpp
 #: editor/project_settings_editor.cpp editor/property_editor.cpp
 #: editor/run_settings_dialog.cpp editor/settings_config_dialog.cpp
 #: modules/visual_script/visual_script_editor.cpp
@@ -941,7 +979,8 @@ msgstr "Keresés:"
 msgid "Matches:"
 msgstr "Találatok:"
 
-#: editor/create_dialog.cpp editor/plugin_config_dialog.cpp
+#: editor/create_dialog.cpp editor/editor_plugin_settings.cpp
+#: editor/plugin_config_dialog.cpp
 #: editor/plugins/asset_library_editor_plugin.cpp
 #: editor/plugins/visual_shader_editor_plugin.cpp editor/property_selector.cpp
 #: modules/visual_script/visual_script_property_selector.cpp
@@ -984,7 +1023,7 @@ msgid "Resource"
 msgstr "Forrás"
 
 #: editor/dependency_editor.cpp editor/editor_autoload_settings.cpp
-#: editor/project_settings_editor.cpp editor/script_create_dialog.cpp
+#: editor/project_manager.cpp editor/project_settings_editor.cpp
 msgid "Path"
 msgstr "Útvonal"
 
@@ -1260,7 +1299,8 @@ msgid "Delete Bus Effect"
 msgstr "Busz Effektus Törlése"
 
 #: editor/editor_audio_buses.cpp
-msgid "Audio Bus, Drag and Drop to rearrange."
+#, fuzzy
+msgid "Drag & drop to rearrange."
 msgstr "Hangbusz, Húzd és Vidd az átrendezéshez."
 
 #: editor/editor_audio_buses.cpp
@@ -1457,7 +1497,9 @@ msgid "Add AutoLoad"
 msgstr "AutoLoad Hozzáadása"
 
 #: editor/editor_autoload_settings.cpp editor/editor_file_dialog.cpp
-#: editor/plugins/animation_tree_editor_plugin.cpp scene/gui/file_dialog.cpp
+#: editor/editor_plugin_settings.cpp
+#: editor/plugins/animation_tree_editor_plugin.cpp
+#: editor/script_create_dialog.cpp scene/gui/file_dialog.cpp
 msgid "Path:"
 msgstr "Útvonal:"
 
@@ -1466,7 +1508,8 @@ msgid "Node Name:"
 msgstr "Node neve:"
 
 #: editor/editor_autoload_settings.cpp editor/editor_help_search.cpp
-#: editor/editor_profiler.cpp editor/settings_config_dialog.cpp
+#: editor/editor_profiler.cpp editor/project_manager.cpp
+#: editor/settings_config_dialog.cpp
 msgid "Name"
 msgstr "Név"
 
@@ -1512,7 +1555,7 @@ msgstr "Mappa Létrehozása"
 #: editor/editor_dir_dialog.cpp editor/editor_file_dialog.cpp
 #: editor/editor_plugin_settings.cpp editor/filesystem_dock.cpp
 #: editor/plugins/theme_editor_plugin.cpp editor/project_export.cpp
-#: scene/gui/file_dialog.cpp
+#: modules/visual_script/visual_script_editor.cpp scene/gui/file_dialog.cpp
 msgid "Name:"
 msgstr "Név:"
 
@@ -1695,6 +1738,7 @@ msgstr "Jelenlegi:"
 
 #: editor/editor_feature_profile.cpp
 #: editor/plugins/animation_player_editor_plugin.cpp
+#: editor/plugins/version_control_editor_plugin.cpp
 msgid "New"
 msgstr "Új"
 
@@ -1726,6 +1770,11 @@ msgstr "Új név:"
 #, fuzzy
 msgid "Erase Profile"
 msgstr "Jobb Egérgomb: Pont Törlése."
+
+#: editor/editor_feature_profile.cpp
+#, fuzzy
+msgid "Godot Feature Profile"
+msgstr "Export Sablonok Kezelése"
 
 #: editor/editor_feature_profile.cpp
 #, fuzzy
@@ -1775,6 +1824,7 @@ msgid "New Folder..."
 msgstr "Új Mappa..."
 
 #: editor/editor_file_dialog.cpp
+#: editor/plugins/version_control_editor_plugin.cpp
 msgid "Refresh"
 msgstr "Frissítés"
 
@@ -1930,6 +1980,7 @@ msgid "Class:"
 msgstr "Osztály:"
 
 #: editor/editor_help.cpp editor/scene_tree_editor.cpp
+#: editor/script_create_dialog.cpp
 msgid "Inherits:"
 msgstr "Örököl:"
 
@@ -1938,7 +1989,8 @@ msgid "Inherited by:"
 msgstr "Őt örökli:"
 
 #: editor/editor_help.cpp
-msgid "Brief Description:"
+#, fuzzy
+msgid "Brief Description"
 msgstr "Rövid Leírás:"
 
 #: editor/editor_help.cpp
@@ -1946,16 +1998,7 @@ msgid "Properties"
 msgstr "Tulajdonságok"
 
 #: editor/editor_help.cpp
-msgid "Properties:"
-msgstr ""
-
-#: editor/editor_help.cpp
 msgid "Methods"
-msgstr "Metódusok"
-
-#: editor/editor_help.cpp
-#, fuzzy
-msgid "Methods:"
 msgstr "Metódusok"
 
 #: editor/editor_help.cpp
@@ -1964,21 +2007,8 @@ msgid "Theme Properties"
 msgstr "Tulajdonságok"
 
 #: editor/editor_help.cpp
-#, fuzzy
-msgid "Theme Properties:"
-msgstr "Tulajdonságok"
-
-#: editor/editor_help.cpp modules/visual_script/visual_script_editor.cpp
-msgid "Signals:"
-msgstr "Jelzések:"
-
-#: editor/editor_help.cpp
 msgid "Enumerations"
 msgstr "Felsorolások"
-
-#: editor/editor_help.cpp
-msgid "Enumerations:"
-msgstr "Felsorolások:"
 
 #: editor/editor_help.cpp
 msgid "enum  "
@@ -1989,21 +2019,13 @@ msgid "Constants"
 msgstr "Konstansok"
 
 #: editor/editor_help.cpp
-msgid "Constants:"
-msgstr "Konstansok:"
-
-#: editor/editor_help.cpp
 #, fuzzy
 msgid "Class Description"
 msgstr "Leírás"
 
 #: editor/editor_help.cpp
 #, fuzzy
-msgid "Class Description:"
-msgstr "Leírás:"
-
-#: editor/editor_help.cpp
-msgid "Online Tutorials:"
+msgid "Online Tutorials"
 msgstr "Online Oktatóanyagok:"
 
 #: editor/editor_help.cpp
@@ -2022,11 +2044,6 @@ msgid "Property Descriptions"
 msgstr "Tulajdonság Leírása:"
 
 #: editor/editor_help.cpp
-#, fuzzy
-msgid "Property Descriptions:"
-msgstr "Tulajdonság Leírása:"
-
-#: editor/editor_help.cpp
 msgid ""
 "There is currently no description for this property. Please help us by "
 "[color=$color][url=$url]contributing one[/url][/color]!"
@@ -2037,11 +2054,6 @@ msgstr ""
 #: editor/editor_help.cpp
 #, fuzzy
 msgid "Method Descriptions"
-msgstr "Metódus Leírás:"
-
-#: editor/editor_help.cpp
-#, fuzzy
-msgid "Method Descriptions:"
 msgstr "Metódus Leírás:"
 
 #: editor/editor_help.cpp
@@ -2123,8 +2135,8 @@ msgstr "Kimenet:"
 msgid "Copy Selection"
 msgstr "Kiválasztás eltávolítás"
 
-#: editor/editor_log.cpp editor/editor_profiler.cpp
-#: editor/editor_properties.cpp
+#: editor/editor_log.cpp editor/editor_network_profiler.cpp
+#: editor/editor_profiler.cpp editor/editor_properties.cpp
 #: editor/plugins/animation_tree_player_editor_plugin.cpp
 #: editor/property_editor.cpp editor/scene_tree_dock.cpp
 #: editor/script_editor_debugger.cpp
@@ -2136,6 +2148,50 @@ msgstr "Töröl"
 #: editor/editor_log.cpp
 msgid "Clear Output"
 msgstr "Kimenet Törlése"
+
+#: editor/editor_network_profiler.cpp editor/editor_node.cpp
+#: editor/editor_profiler.cpp
+msgid "Stop"
+msgstr "Leállítás"
+
+#: editor/editor_network_profiler.cpp editor/editor_profiler.cpp
+#: editor/plugins/animation_state_machine_editor.cpp editor/rename_dialog.cpp
+#, fuzzy
+msgid "Start"
+msgstr "Start!"
+
+#: editor/editor_network_profiler.cpp
+msgid "%s/s"
+msgstr ""
+
+#: editor/editor_network_profiler.cpp
+#, fuzzy
+msgid "Down"
+msgstr "Letöltés"
+
+#: editor/editor_network_profiler.cpp
+msgid "Up"
+msgstr ""
+
+#: editor/editor_network_profiler.cpp editor/editor_node.cpp
+msgid "Node"
+msgstr "Node"
+
+#: editor/editor_network_profiler.cpp
+msgid "Incoming RPC"
+msgstr ""
+
+#: editor/editor_network_profiler.cpp
+msgid "Incoming RSET"
+msgstr ""
+
+#: editor/editor_network_profiler.cpp
+msgid "Outgoing RPC"
+msgstr ""
+
+#: editor/editor_network_profiler.cpp
+msgid "Outgoing RSET"
+msgstr ""
 
 #: editor/editor_node.cpp editor/project_manager.cpp
 msgid "New Window"
@@ -2733,7 +2789,8 @@ msgstr "Scene visszaállítás"
 msgid "Miscellaneous project or scene-wide tools."
 msgstr "Egyéb projekt- vagy Scene-szintű eszközök."
 
-#: editor/editor_node.cpp editor/script_create_dialog.cpp
+#: editor/editor_node.cpp editor/project_manager.cpp
+#: editor/script_create_dialog.cpp
 msgid "Project"
 msgstr "Projekt"
 
@@ -2741,6 +2798,19 @@ msgstr "Projekt"
 #, fuzzy
 msgid "Project Settings..."
 msgstr "Projekt Beállítások"
+
+#: editor/editor_node.cpp editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Version Control"
+msgstr "Verzió:"
+
+#: editor/editor_node.cpp editor/plugins/version_control_editor_plugin.cpp
+msgid "Set Up Version Control"
+msgstr ""
+
+#: editor/editor_node.cpp
+msgid "Shut Down Version Control"
+msgstr ""
 
 #: editor/editor_node.cpp
 #, fuzzy
@@ -2961,8 +3031,8 @@ msgid "Play"
 msgstr "Játék"
 
 #: editor/editor_node.cpp
-msgid "Pause the scene"
-msgstr "Szünetelteti a jelenetet"
+msgid "Pause the scene execution for debugging."
+msgstr ""
 
 #: editor/editor_node.cpp
 msgid "Pause Scene"
@@ -2971,10 +3041,6 @@ msgstr "Scene szüneteltetés"
 #: editor/editor_node.cpp
 msgid "Stop the scene."
 msgstr "Leállítja a jelenetet."
-
-#: editor/editor_node.cpp editor/editor_profiler.cpp
-msgid "Stop"
-msgstr "Leállítás"
 
 #: editor/editor_node.cpp
 msgid "Play the edited scene."
@@ -3031,15 +3097,11 @@ msgid "Inspector"
 msgstr "Megfigyelő"
 
 #: editor/editor_node.cpp
-msgid "Node"
-msgstr "Node"
-
-#: editor/editor_node.cpp
 #, fuzzy
 msgid "Expand Bottom Panel"
 msgstr "Összes kibontása"
 
-#: editor/editor_node.cpp scene/resources/visual_shader.cpp
+#: editor/editor_node.cpp
 msgid "Output"
 msgstr "Kimenet"
 
@@ -3058,20 +3120,31 @@ msgstr "Export Sablonok Kezelése"
 
 #: editor/editor_node.cpp
 msgid ""
-"This will install the Android project for custom builds.\n"
-"Note that, in order to use it, it needs to be enabled per export preset."
+"This will set up your project for custom Android builds by installing the "
+"source template to \"res://android/build\".\n"
+"You can then apply modifications and build your own custom APK on export "
+"(adding modules, changing the AndroidManifest.xml, etc.).\n"
+"Note that in order to make custom builds instead of using pre-built APKs, "
+"the \"Use Custom Build\" option should be enabled in the Android export "
+"preset."
 msgstr ""
 
 #: editor/editor_node.cpp
 msgid ""
-"Android build template is already installed and it won't be overwritten.\n"
-"Remove the \"build\" directory manually before attempting this operation "
-"again."
+"The Android build template is already installed in this project and it won't "
+"be overwritten.\n"
+"Remove the \"res://android/build\" directory manually before attempting this "
+"operation again."
 msgstr ""
 
 #: editor/editor_node.cpp
 msgid "Import Templates From ZIP File"
 msgstr "Sablonok Importálása ZIP Fájlból"
+
+#: editor/editor_node.cpp
+#, fuzzy
+msgid "Template Package"
+msgstr "Export Sablon Kezelő"
 
 #: editor/editor_node.cpp editor/project_export.cpp
 msgid "Export Project"
@@ -3129,6 +3202,11 @@ msgstr "Következő Szerkesztő Megnyitása"
 msgid "Open the previous Editor"
 msgstr "Előző Szerkesztő Megnyitása"
 
+#: editor/editor_path.cpp
+#, fuzzy
+msgid "No sub-resources found."
+msgstr "Nincs felületi forrás meghatározva."
+
 #: editor/editor_plugin.cpp
 msgid "Creating Mesh Previews"
 msgstr "Háló Előnézetek Létrehozása"
@@ -3136,6 +3214,11 @@ msgstr "Háló Előnézetek Létrehozása"
 #: editor/editor_plugin.cpp
 msgid "Thumbnail..."
 msgstr "Indexkép..."
+
+#: editor/editor_plugin_settings.cpp
+#, fuzzy
+msgid "Main Script:"
+msgstr "Szkript Futtatása"
 
 #: editor/editor_plugin_settings.cpp
 #, fuzzy
@@ -3167,12 +3250,6 @@ msgstr "Állapot:"
 #, fuzzy
 msgid "Edit:"
 msgstr "Szerkesztés"
-
-#: editor/editor_profiler.cpp editor/plugins/animation_state_machine_editor.cpp
-#: editor/rename_dialog.cpp
-#, fuzzy
-msgid "Start"
-msgstr "Start!"
 
 #: editor/editor_profiler.cpp
 msgid "Measure:"
@@ -3272,6 +3349,11 @@ msgstr ""
 msgid "New Script"
 msgstr ""
 
+#: editor/editor_properties.cpp editor/scene_tree_dock.cpp
+#, fuzzy
+msgid "Extend Script"
+msgstr "Szkript Futtatása"
+
 #: editor/editor_properties.cpp editor/property_editor.cpp
 msgid "New %s"
 msgstr ""
@@ -3297,14 +3379,6 @@ msgstr "Beillesztés"
 #: editor/editor_properties.cpp editor/property_editor.cpp
 msgid "Convert To %s"
 msgstr ""
-
-#: editor/editor_properties.cpp
-#: editor/plugins/animation_blend_space_1d_editor.cpp
-#: editor/plugins/animation_blend_space_2d_editor.cpp
-#: editor/plugins/animation_blend_tree_editor_plugin.cpp
-#, fuzzy
-msgid "Open Editor"
-msgstr "Megnyitás Szerkesztőben"
 
 #: editor/editor_properties.cpp editor/property_editor.cpp
 msgid "Selected node is not a Viewport!"
@@ -3577,6 +3651,11 @@ msgid "Select Template File"
 msgstr "Válasszon sablonfájlt"
 
 #: editor/export_template_manager.cpp
+#, fuzzy
+msgid "Godot Export Templates"
+msgstr "Export Sablonok Kezelése"
+
+#: editor/export_template_manager.cpp
 msgid "Export Template Manager"
 msgstr "Export Sablon Kezelő"
 
@@ -3657,6 +3736,11 @@ msgstr "Mappa másolása:"
 #, fuzzy
 msgid "New Inherited Scene"
 msgstr "Új örökölt Jelenet..."
+
+#: editor/filesystem_dock.cpp
+#, fuzzy
+msgid "Set As Main Scene"
+msgstr "Válasszon egy Fő Jelenetet"
 
 #: editor/filesystem_dock.cpp
 #, fuzzy
@@ -4004,8 +4088,9 @@ msgstr " Fájlok"
 msgid "Import As:"
 msgstr "Importálás Mint:"
 
-#: editor/import_dock.cpp editor/property_editor.cpp
-msgid "Preset..."
+#: editor/import_dock.cpp
+#, fuzzy
+msgid "Preset"
 msgstr "Beépített Beállítások..."
 
 #: editor/import_dock.cpp
@@ -4138,7 +4223,7 @@ msgstr "Bővítmények"
 msgid "Subfolder:"
 msgstr ""
 
-#: editor/plugin_config_dialog.cpp
+#: editor/plugin_config_dialog.cpp editor/script_create_dialog.cpp
 msgid "Language:"
 msgstr ""
 
@@ -4292,6 +4377,13 @@ msgstr "Pont Mozgatása"
 #: editor/plugins/animation_blend_space_1d_editor.cpp
 #: editor/plugins/animation_blend_space_2d_editor.cpp
 #: editor/plugins/animation_blend_tree_editor_plugin.cpp
+#, fuzzy
+msgid "Open Editor"
+msgstr "Megnyitás Szerkesztőben"
+
+#: editor/plugins/animation_blend_space_1d_editor.cpp
+#: editor/plugins/animation_blend_space_2d_editor.cpp
+#: editor/plugins/animation_blend_tree_editor_plugin.cpp
 #: editor/plugins/animation_state_machine_editor.cpp
 #, fuzzy
 msgid "Open Animation Node"
@@ -4438,6 +4530,20 @@ msgid ""
 msgstr ""
 
 #: editor/plugins/animation_blend_tree_editor_plugin.cpp
+msgid "Anim Clips"
+msgstr ""
+
+#: editor/plugins/animation_blend_tree_editor_plugin.cpp
+#, fuzzy
+msgid "Audio Clips"
+msgstr "Animáció nyomvonal hozzáadás"
+
+#: editor/plugins/animation_blend_tree_editor_plugin.cpp
+#, fuzzy
+msgid "Functions"
+msgstr "Funkciók:"
+
+#: editor/plugins/animation_blend_tree_editor_plugin.cpp
 #: editor/plugins/animation_state_machine_editor.cpp
 #, fuzzy
 msgid "Node Renamed"
@@ -4476,6 +4582,7 @@ msgid "Change Animation Name:"
 msgstr "Animáció Nevének Megváltoztatása:"
 
 #: editor/plugins/animation_player_editor_plugin.cpp
+#: editor/plugins/sprite_frames_editor_plugin.cpp
 msgid "Delete Animation?"
 msgstr "Animáció Törlése?"
 
@@ -4660,7 +4767,6 @@ msgstr "Animáció Neve:"
 #: editor/plugins/resource_preloader_editor_plugin.cpp
 #: editor/plugins/script_editor_plugin.cpp
 #: editor/plugins/sprite_frames_editor_plugin.cpp editor/property_editor.cpp
-#: editor/script_create_dialog.cpp
 msgid "Error!"
 msgstr "Hiba!"
 
@@ -4837,6 +4943,8 @@ msgid "Current:"
 msgstr "Jelenlegi:"
 
 #: editor/plugins/animation_tree_player_editor_plugin.cpp
+#: editor/plugins/visual_shader_editor_plugin.cpp
+#: modules/visual_script/visual_script_editor.cpp
 msgid "Add Input"
 msgstr "Bemenet Hozzáadása"
 
@@ -5031,6 +5139,32 @@ msgid "Download for this asset is already in progress!"
 msgstr "Ennek az eszköznek a letöltése már folyamatban van!"
 
 #: editor/plugins/asset_library_editor_plugin.cpp
+msgid "Recently Updated"
+msgstr ""
+
+#: editor/plugins/asset_library_editor_plugin.cpp
+msgid "Least Recently Updated"
+msgstr ""
+
+#: editor/plugins/asset_library_editor_plugin.cpp
+msgid "Name (A-Z)"
+msgstr ""
+
+#: editor/plugins/asset_library_editor_plugin.cpp
+msgid "Name (Z-A)"
+msgstr ""
+
+#: editor/plugins/asset_library_editor_plugin.cpp
+#, fuzzy
+msgid "License (A-Z)"
+msgstr "Licenc"
+
+#: editor/plugins/asset_library_editor_plugin.cpp
+#, fuzzy
+msgid "License (Z-A)"
+msgstr "Licenc"
+
+#: editor/plugins/asset_library_editor_plugin.cpp
 #, fuzzy
 msgid "First"
 msgstr "első"
@@ -5053,6 +5187,10 @@ msgid "All"
 msgstr "Mind"
 
 #: editor/plugins/asset_library_editor_plugin.cpp
+msgid "No results for \"%s\"."
+msgstr ""
+
+#: editor/plugins/asset_library_editor_plugin.cpp
 #, fuzzy
 msgid "Import..."
 msgstr "Importálás"
@@ -5065,11 +5203,6 @@ msgstr "Bővítmények"
 #: editor/plugins/asset_library_editor_plugin.cpp editor/project_manager.cpp
 msgid "Sort:"
 msgstr "Rendezés:"
-
-#: editor/plugins/asset_library_editor_plugin.cpp
-#, fuzzy
-msgid "Reverse sorting."
-msgstr "Lekérdezés..."
 
 #: editor/plugins/asset_library_editor_plugin.cpp
 #: editor/project_settings_editor.cpp
@@ -5150,12 +5283,26 @@ msgid "Grid Step:"
 msgstr "Rács Léptetés:"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
+msgid "Primary Line Every:"
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "steps"
+msgstr "2 lépés"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
 msgid "Rotation Offset:"
 msgstr "Forgatási Eltolás:"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
 msgid "Rotation Step:"
 msgstr "Forgatási Léptetés:"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Scale Step:"
+msgstr "Skála:"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
 #, fuzzy
@@ -5239,6 +5386,85 @@ msgid ""
 msgstr ""
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Top Left"
+msgstr "Forgató mód"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Top Right"
+msgstr "Sokszög Forgatása"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Bottom Right"
+msgstr "Sokszög Forgatása"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Bottom Left"
+msgstr "Forgató mód"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Center Left"
+msgstr "Behúzás Balra"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Center Top"
+msgstr "Kijelölés Középre"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Center Right"
+msgstr "Behúzás Jobbra"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Center Bottom"
+msgstr "Kijelölés Középre"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+msgid "Center"
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Left Wide"
+msgstr "Bal lineáris"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+msgid "Top Wide"
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Right Wide"
+msgstr "Jobb lineáris"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+msgid "Bottom Wide"
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+msgid "VCenter Wide"
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+msgid "HCenter Wide"
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+msgid "Full Rect"
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Keep Ratio"
+msgstr "Méretezési arány:"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
 msgid "Anchors only"
 msgstr "Csak Horgonyok"
 
@@ -5249,6 +5475,20 @@ msgstr "Horgonyok és Margók Módosítása"
 #: editor/plugins/canvas_item_editor_plugin.cpp
 msgid "Change Anchors"
 msgstr "Horgonyok Módosítása"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#: editor/plugins/spatial_editor_plugin.cpp
+msgid ""
+"Game Camera Override\n"
+"Overrides game camera with editor viewport camera."
+msgstr ""
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#: editor/plugins/spatial_editor_plugin.cpp
+msgid ""
+"Game Camera Override\n"
+"No game instance running."
+msgstr ""
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
 #: editor/plugins/spatial_editor_plugin.cpp
@@ -5371,12 +5611,27 @@ msgstr "Pásztázás Mód"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
 #, fuzzy
-msgid "Toggle snapping."
+msgid "Ruler Mode"
+msgstr "Kiválasztó Mód"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Toggle smart snapping."
 msgstr "Illesztés be- és kikapcsolása"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
-#: editor/plugins/spatial_editor_plugin.cpp
-msgid "Use Snap"
+#, fuzzy
+msgid "Use Smart Snap"
+msgstr "Illesztés Használata"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Toggle grid snapping."
+msgstr "Illesztés be- és kikapcsolása"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Use Grid Snap"
 msgstr "Illesztés Használata"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
@@ -5385,13 +5640,13 @@ msgid "Snapping Options"
 msgstr "Illesztési beállítások"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
-#, fuzzy
-msgid "Snap to Grid"
-msgstr "Rácshoz illesztés"
-
-#: editor/plugins/canvas_item_editor_plugin.cpp
 msgid "Use Rotation Snap"
 msgstr "Forgatási Illesztés Használata"
+
+#: editor/plugins/canvas_item_editor_plugin.cpp
+#, fuzzy
+msgid "Use Scale Snap"
+msgstr "Illesztés Használata"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
 msgid "Snap Relative"
@@ -5485,8 +5740,8 @@ msgid "View"
 msgstr "Nézet"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
-#: editor/plugins/polygon_2d_editor_plugin.cpp
-msgid "Show Grid"
+#, fuzzy
+msgid "Always Show Grid"
 msgstr "Rács Megjelenítése"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
@@ -5544,7 +5799,7 @@ msgstr "Kulcs Beszúrása (Meglévő Nyomvonalakra)"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
 msgid ""
-"Auto insert keys when objects are translated, rotated on scaled (based on "
+"Auto insert keys when objects are translated, rotated or scaled (based on "
 "mask).\n"
 "Keys are only added to existing tracks, no new tracks will be created.\n"
 "Keys must be inserted manually for the first time."
@@ -5761,6 +6016,11 @@ msgstr "Görbe Lineáris Érintőjének Kapcsolása"
 #: editor/plugins/curve_editor_plugin.cpp
 msgid "Hold Shift to edit tangents individually"
 msgstr "Tartsa lenyomva a Shift gombot az érintők egyenkénti szerkesztéséhez"
+
+#: editor/plugins/curve_editor_plugin.cpp
+#, fuzzy
+msgid "Right click to add point"
+msgstr "Jobb Kattintás: Pont Törlése"
 
 #: editor/plugins/gi_probe_editor_plugin.cpp
 msgid "Bake GI Probe"
@@ -6417,6 +6677,10 @@ msgid "Grid"
 msgstr "Rács"
 
 #: editor/plugins/polygon_2d_editor_plugin.cpp
+msgid "Show Grid"
+msgstr "Rács Megjelenítése"
+
+#: editor/plugins/polygon_2d_editor_plugin.cpp
 #, fuzzy
 msgid "Configure Grid:"
 msgstr "Illesztés Beállítása"
@@ -6478,7 +6742,8 @@ msgstr "Példány:"
 
 #: editor/plugins/resource_preloader_editor_plugin.cpp
 #: editor/plugins/theme_editor_plugin.cpp editor/project_settings_editor.cpp
-#: editor/scene_tree_editor.cpp
+#: editor/scene_tree_editor.cpp editor/script_editor_debugger.cpp
+#: modules/visual_script/visual_script_editor.cpp
 msgid "Type:"
 msgstr "Típus:"
 
@@ -6589,6 +6854,11 @@ msgid "Find Next"
 msgstr "Következő Keresése"
 
 #: editor/plugins/script_editor_plugin.cpp
+#: editor/plugins/script_text_editor.cpp
+msgid "Find Previous"
+msgstr "Előző Keresése"
+
+#: editor/plugins/script_editor_plugin.cpp
 #, fuzzy
 msgid "Filter scripts"
 msgstr "Objektumtulajdonságok."
@@ -6691,17 +6961,13 @@ msgstr "Dokumentációs Lapok Bezárása"
 msgid "Run"
 msgstr "Futtatás"
 
-#: editor/plugins/script_editor_plugin.cpp
-msgid "Toggle Scripts Panel"
-msgstr "Szkript Panel Megjelenítése"
+#: editor/plugins/script_editor_plugin.cpp editor/script_editor_debugger.cpp
+msgid "Step Into"
+msgstr "Belépés"
 
 #: editor/plugins/script_editor_plugin.cpp editor/script_editor_debugger.cpp
 msgid "Step Over"
 msgstr "Átlépés"
-
-#: editor/plugins/script_editor_plugin.cpp editor/script_editor_debugger.cpp
-msgid "Step Into"
-msgstr "Belépés"
 
 #: editor/plugins/script_editor_plugin.cpp editor/script_editor_debugger.cpp
 msgid "Break"
@@ -6787,7 +7053,7 @@ msgstr "Legutóbbi Jelenetek Törlése"
 msgid "Connections to method:"
 msgstr "Csatlakoztatás Node-hoz:"
 
-#: editor/plugins/script_text_editor.cpp
+#: editor/plugins/script_text_editor.cpp editor/script_editor_debugger.cpp
 #, fuzzy
 msgid "Source"
 msgstr "Forrás"
@@ -6874,6 +7140,11 @@ msgstr "Pontok Törlése"
 msgid "Cut"
 msgstr "Kivágás"
 
+#: editor/plugins/script_text_editor.cpp scene/gui/line_edit.cpp
+#: scene/gui/text_edit.cpp
+msgid "Select All"
+msgstr "Összes Kijelölése"
+
 #: editor/plugins/script_text_editor.cpp
 msgid "Delete Line"
 msgstr "Sor Törlése"
@@ -6932,10 +7203,6 @@ msgstr "Behúzások Átkonvertálása Tabokra"
 #: editor/plugins/script_text_editor.cpp
 msgid "Auto Indent"
 msgstr "Automatikus Behúzás"
-
-#: editor/plugins/script_text_editor.cpp
-msgid "Find Previous"
-msgstr "Előző Keresése"
 
 #: editor/plugins/script_text_editor.cpp
 #, fuzzy
@@ -7276,6 +7543,10 @@ msgid "Freelook Speed Modifier"
 msgstr ""
 
 #: editor/plugins/spatial_editor_plugin.cpp
+msgid "Freelook Slow Modifier"
+msgstr ""
+
+#: editor/plugins/spatial_editor_plugin.cpp
 msgid ""
 "Note: The FPS value displayed is the editor's framerate.\n"
 "It cannot be used as a reliable indication of in-game performance."
@@ -7308,6 +7579,10 @@ msgstr ""
 #: editor/plugins/spatial_editor_plugin.cpp
 msgid "Use Local Space"
 msgstr ""
+
+#: editor/plugins/spatial_editor_plugin.cpp
+msgid "Use Snap"
+msgstr "Illesztés Használata"
 
 #: editor/plugins/spatial_editor_plugin.cpp
 msgid "Bottom View"
@@ -7547,6 +7822,10 @@ msgid "Simplification: "
 msgstr ""
 
 #: editor/plugins/sprite_editor_plugin.cpp
+msgid "Shrink (Pixels): "
+msgstr ""
+
+#: editor/plugins/sprite_editor_plugin.cpp
 msgid "Grow (Pixels): "
 msgstr ""
 
@@ -7596,6 +7875,11 @@ msgstr ""
 #: editor/plugins/sprite_frames_editor_plugin.cpp
 msgid "(empty)"
 msgstr ""
+
+#: editor/plugins/sprite_frames_editor_plugin.cpp
+#, fuzzy
+msgid "Move Frame"
+msgstr "Mozgás Mód"
 
 #: editor/plugins/sprite_frames_editor_plugin.cpp
 #, fuzzy
@@ -7877,6 +8161,11 @@ msgstr "Szín"
 msgid "Constant"
 msgstr "Állandó"
 
+#: editor/plugins/theme_editor_plugin.cpp
+#, fuzzy
+msgid "Theme File"
+msgstr "Fálj Megnyitása"
+
 #: editor/plugins/tile_map_editor_plugin.cpp
 msgid "Erase Selection"
 msgstr ""
@@ -7929,6 +8218,15 @@ msgstr ""
 #, fuzzy
 msgid "Enable Priority"
 msgstr "Szűrők Szerkesztése"
+
+#: editor/plugins/tile_map_editor_plugin.cpp
+#, fuzzy
+msgid "Filter tiles"
+msgstr "Fájlok Szűrése..."
+
+#: editor/plugins/tile_map_editor_plugin.cpp
+msgid "Give a TileSet resource to this TileMap to use its tiles."
+msgstr ""
 
 #: editor/plugins/tile_map_editor_plugin.cpp
 msgid "Paint Tile"
@@ -8076,6 +8374,11 @@ msgstr ""
 
 #: editor/plugins/tile_set_editor_plugin.cpp
 msgid "Display Tile Names (Hold Alt Key)"
+msgstr ""
+
+#: editor/plugins/tile_set_editor_plugin.cpp
+msgid ""
+"Add or select a texture on the left panel to edit the tiles bound to it."
 msgstr ""
 
 #: editor/plugins/tile_set_editor_plugin.cpp
@@ -8254,18 +8557,117 @@ msgstr "Ezt a műveletet nem lehet végrehajtani egy Scene nélkül."
 msgid "TileSet"
 msgstr "TileSet-re..."
 
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "No VCS addons are available."
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp editor/rename_dialog.cpp
+msgid "Error"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "No commit message was provided"
+msgstr "Nincs név megadva"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "No files added to stage"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Commit"
+msgstr "Közösség"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "VCS Addon is not initialized"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "Version Control System"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Initialize"
+msgstr "Szó Eleji Nagybetű"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "Staging area"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Detect new changes"
+msgstr "Új %s Létrehozása"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Changes"
+msgstr "Változtatás"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "Modified"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Renamed"
+msgstr "Átnevezés"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Deleted"
+msgstr "Törlés"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Typechange"
+msgstr "Változtatás"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Stage Selected"
+msgstr "Kiválasztás átméretezés"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Stage All"
+msgstr "Összes Mentése"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "Add a commit message"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#, fuzzy
+msgid "Commit Changes"
+msgstr "Szkript Változtatások Szinkronizálása"
+
+#: editor/plugins/version_control_editor_plugin.cpp
+#: modules/gdnative/gdnative_library_singleton_editor.cpp
+msgid "Status"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "View file diffs before committing them to the latest version"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "No file diff is active"
+msgstr ""
+
+#: editor/plugins/version_control_editor_plugin.cpp
+msgid "Detect changes in file diff"
+msgstr ""
+
 #: editor/plugins/visual_shader_editor_plugin.cpp
 msgid "(GLES3 only)"
 msgstr ""
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
 #, fuzzy
-msgid "Add input +"
-msgstr "Bemenet Hozzáadása"
-
-#: editor/plugins/visual_shader_editor_plugin.cpp
-#, fuzzy
-msgid "Add output +"
+msgid "Add Output"
 msgstr "Bemenet Hozzáadása"
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
@@ -8280,6 +8682,10 @@ msgstr "Megfigyelő"
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
 msgid "Boolean"
+msgstr ""
+
+#: editor/plugins/visual_shader_editor_plugin.cpp
+msgid "Sampler"
 msgstr ""
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
@@ -8430,8 +8836,9 @@ msgid "Dodge operator."
 msgstr ""
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
-msgid "HardLight operator"
-msgstr ""
+#, fuzzy
+msgid "HardLight operator."
+msgstr "Skaláris kezelő változtatás"
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
 msgid "Lighten operator."
@@ -8508,6 +8915,11 @@ msgstr ""
 #: editor/plugins/visual_shader_editor_plugin.cpp
 msgid ""
 "Returns an associated vector if the provided boolean value is true or false."
+msgstr ""
+
+#: editor/plugins/visual_shader_editor_plugin.cpp
+msgid ""
+"Returns an associated scalar if the provided boolean value is true or false."
 msgstr ""
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
@@ -9027,9 +9439,10 @@ msgstr ""
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
 msgid ""
-"Custom Godot Shader Language expression, which placed on top of the resulted "
-"shader. You can place various function definitions inside and call it later "
-"in the Expressions. You can also declare varyings, uniforms and constants."
+"Custom Godot Shader Language expression, which is placed on top of the "
+"resulted shader. You can place various function definitions inside and call "
+"it later in the Expressions. You can also declare varyings, uniforms and "
+"constants."
 msgstr ""
 
 #: editor/plugins/visual_shader_editor_plugin.cpp
@@ -9096,6 +9509,15 @@ msgid "Runnable"
 msgstr ""
 
 #: editor/project_export.cpp
+#, fuzzy
+msgid "Add initial export..."
+msgstr "Bemenet Hozzáadása"
+
+#: editor/project_export.cpp
+msgid "Add previous patches..."
+msgstr ""
+
+#: editor/project_export.cpp
 msgid "Delete patch '%s' from list?"
 msgstr ""
 
@@ -9142,6 +9564,12 @@ msgid "Add..."
 msgstr ""
 
 #: editor/project_export.cpp
+msgid ""
+"If checked, the preset will be available for use in one-click deploy.\n"
+"Only one preset per platform may be marked as runnable."
+msgstr ""
+
+#: editor/project_export.cpp
 #, fuzzy
 msgid "Export Path"
 msgstr "Projekt Exportálása"
@@ -9172,12 +9600,14 @@ msgstr ""
 
 #: editor/project_export.cpp
 msgid ""
-"Filters to export non-resource files (comma separated, e.g: *.json, *.txt)"
+"Filters to export non-resource files/folders\n"
+"(comma-separated, e.g: *.json, *.txt, docs/*)"
 msgstr ""
 
 #: editor/project_export.cpp
 msgid ""
-"Filters to exclude files from project (comma separated, e.g: *.json, *.txt)"
+"Filters to exclude files/folders from project\n"
+"(comma-separated, e.g: *.json, *.txt, docs/*)"
 msgstr ""
 
 #: editor/project_export.cpp
@@ -9187,6 +9617,11 @@ msgstr ""
 #: editor/project_export.cpp
 msgid "Make Patch"
 msgstr ""
+
+#: editor/project_export.cpp
+#, fuzzy
+msgid "Pack File"
+msgstr " Fájlok"
 
 #: editor/project_export.cpp
 msgid "Features"
@@ -9243,6 +9678,15 @@ msgstr "Projekt Exportálása"
 #, fuzzy
 msgid "Export All"
 msgstr "Exportálás"
+
+#: editor/project_export.cpp editor/project_manager.cpp
+#, fuzzy
+msgid "ZIP File"
+msgstr " Fájlok"
+
+#: editor/project_export.cpp
+msgid "Godot Game Pack"
+msgstr ""
 
 #: editor/project_export.cpp
 msgid "Export templates for this platform are missing:"
@@ -9508,6 +9952,10 @@ msgid "Projects"
 msgstr "Projekt"
 
 #: editor/project_manager.cpp
+msgid "Last Modified"
+msgstr ""
+
+#: editor/project_manager.cpp
 msgid "Scan"
 msgstr ""
 
@@ -9589,18 +10037,6 @@ msgstr ""
 #: editor/project_settings_editor.cpp
 msgid "Device"
 msgstr "Eszköz"
-
-#: editor/project_settings_editor.cpp editor/settings_config_dialog.cpp
-msgid "Shift+"
-msgstr "Shift+"
-
-#: editor/project_settings_editor.cpp editor/settings_config_dialog.cpp
-msgid "Alt+"
-msgstr "Alt+"
-
-#: editor/project_settings_editor.cpp editor/settings_config_dialog.cpp
-msgid "Control+"
-msgstr "Control+"
 
 #: editor/project_settings_editor.cpp editor/settings_config_dialog.cpp
 msgid "Press a Key..."
@@ -9731,6 +10167,11 @@ msgstr ""
 #: editor/project_settings_editor.cpp
 msgid "Settings saved OK."
 msgstr ""
+
+#: editor/project_settings_editor.cpp
+#, fuzzy
+msgid "Moved Input Action Event"
+msgstr "Pont Mozgatása a Görbén"
 
 #: editor/project_settings_editor.cpp
 msgid "Override for Feature"
@@ -9870,6 +10311,10 @@ msgstr ""
 #: editor/project_settings_editor.cpp
 msgid "Plugins"
 msgstr "Bővítmények"
+
+#: editor/property_editor.cpp
+msgid "Preset..."
+msgstr "Beépített Beállítások..."
 
 #: editor/property_editor.cpp
 msgid "Zero"
@@ -10045,10 +10490,6 @@ msgstr "Mind Nagybetű"
 msgid "Reset"
 msgstr "Nagyítás Visszaállítása"
 
-#: editor/rename_dialog.cpp
-msgid "Error"
-msgstr ""
-
 #: editor/reparent_dialog.cpp editor/scene_tree_dock.cpp
 msgid "Reparent Node"
 msgstr ""
@@ -10104,6 +10545,10 @@ msgid "Instance Scene(s)"
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
+msgid "Replace with Branch Scene"
+msgstr ""
+
+#: editor/scene_tree_dock.cpp
 msgid "Instance Child Scene"
 msgstr ""
 
@@ -10145,8 +10590,22 @@ msgid "Make node as Root"
 msgstr "Scene mentés"
 
 #: editor/scene_tree_dock.cpp
-msgid "Delete Node(s)?"
+#, fuzzy
+msgid "Delete %d nodes?"
+msgstr "Node létrehozás"
+
+#: editor/scene_tree_dock.cpp
+msgid "Delete the root node \"%s\"?"
 msgstr ""
+
+#: editor/scene_tree_dock.cpp
+msgid "Delete node \"%s\" and its children?"
+msgstr ""
+
+#: editor/scene_tree_dock.cpp
+#, fuzzy
+msgid "Delete node \"%s\"?"
+msgstr "Node létrehozás"
 
 #: editor/scene_tree_dock.cpp
 msgid "Can not perform with the root node."
@@ -10167,11 +10626,9 @@ msgid ""
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
-msgid "Editable Children"
-msgstr ""
-
-#: editor/scene_tree_dock.cpp
-msgid "Load As Placeholder"
+msgid ""
+"Enabling \"Load As Placeholder\" will disable \"Editable Children\" and "
+"cause all properties of the node to be reverted to their default."
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
@@ -10251,6 +10708,14 @@ msgid "Clear Inheritance"
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
+msgid "Editable Children"
+msgstr ""
+
+#: editor/scene_tree_dock.cpp
+msgid "Load As Placeholder"
+msgstr ""
+
+#: editor/scene_tree_dock.cpp
 #, fuzzy
 msgid "Open Documentation"
 msgstr "Godot online dokumentáció megnyitása"
@@ -10267,11 +10732,6 @@ msgstr "Összes összecsukása"
 #: editor/scene_tree_dock.cpp
 msgid "Change Type"
 msgstr ""
-
-#: editor/scene_tree_dock.cpp
-#, fuzzy
-msgid "Extend Script"
-msgstr "Szkript Futtatása"
 
 #: editor/scene_tree_dock.cpp
 #, fuzzy
@@ -10521,24 +10981,19 @@ msgid "Will load an existing script file."
 msgstr "Meglévő Busz Elrendezés betöltése."
 
 #: editor/script_create_dialog.cpp
-msgid "Language"
-msgstr ""
+#, fuzzy
+msgid "Class Name:"
+msgstr "Osztály:"
 
 #: editor/script_create_dialog.cpp
-msgid "Inherits"
-msgstr ""
+#, fuzzy
+msgid "Template:"
+msgstr "Sablon Eltávolítása"
 
 #: editor/script_create_dialog.cpp
-msgid "Class Name"
-msgstr ""
-
-#: editor/script_create_dialog.cpp
-msgid "Template"
-msgstr ""
-
-#: editor/script_create_dialog.cpp
-msgid "Built-in Script"
-msgstr ""
+#, fuzzy
+msgid "Built-in Script:"
+msgstr "Szkript Futtatása"
 
 #: editor/script_create_dialog.cpp
 msgid "Attach Node Script"
@@ -10553,11 +11008,41 @@ msgid "Bytes:"
 msgstr ""
 
 #: editor/script_editor_debugger.cpp
-msgid "Stack Trace"
+msgid "Warning:"
 msgstr ""
 
 #: editor/script_editor_debugger.cpp
-msgid "Pick one or more items from the list to display the graph."
+#, fuzzy
+msgid "Error:"
+msgstr "Hiba!"
+
+#: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "C++ Error"
+msgstr "Hiba Másolása"
+
+#: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "C++ Error:"
+msgstr "Hiba Másolása"
+
+#: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "C++ Source"
+msgstr "Forrás"
+
+#: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "Source:"
+msgstr "Forrás"
+
+#: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "C++ Source:"
+msgstr "Forrás"
+
+#: editor/script_editor_debugger.cpp
+msgid "Stack Trace"
 msgstr ""
 
 #: editor/script_editor_debugger.cpp
@@ -10565,12 +11050,18 @@ msgid "Errors"
 msgstr ""
 
 #: editor/script_editor_debugger.cpp
-msgid "Child Process Connected"
-msgstr ""
+#, fuzzy
+msgid "Child process connected."
+msgstr "Kapcsolat bontva"
 
 #: editor/script_editor_debugger.cpp
 msgid "Copy Error"
 msgstr "Hiba Másolása"
+
+#: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "Skip Breakpoints"
+msgstr "Pontok Törlése"
 
 #: editor/script_editor_debugger.cpp
 msgid "Inspect Previous Instance"
@@ -10589,6 +11080,11 @@ msgid "Profiler"
 msgstr ""
 
 #: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "Network Profiler"
+msgstr "Projekt Exportálása"
+
+#: editor/script_editor_debugger.cpp
 msgid "Monitor"
 msgstr ""
 
@@ -10598,6 +11094,10 @@ msgstr ""
 
 #: editor/script_editor_debugger.cpp
 msgid "Monitors"
+msgstr ""
+
+#: editor/script_editor_debugger.cpp
+msgid "Pick one or more items from the list to display the graph."
 msgstr ""
 
 #: editor/script_editor_debugger.cpp
@@ -10803,15 +11303,15 @@ msgid "Library"
 msgstr ""
 
 #: modules/gdnative/gdnative_library_singleton_editor.cpp
-msgid "Status"
-msgstr ""
-
-#: modules/gdnative/gdnative_library_singleton_editor.cpp
 msgid "Libraries: "
 msgstr ""
 
 #: modules/gdnative/register_types.cpp
 msgid "GDNative"
+msgstr ""
+
+#: modules/gdscript/gdscript_functions.cpp
+msgid "Expected a string of length 1 (a character)."
 msgstr ""
 
 #: modules/gdscript/gdscript_functions.cpp
@@ -10969,6 +11469,15 @@ msgstr ""
 msgid "Pick Distance:"
 msgstr ""
 
+#: modules/gridmap/grid_map_editor_plugin.cpp
+#, fuzzy
+msgid "Filter meshes"
+msgstr "Objektumtulajdonságok."
+
+#: modules/gridmap/grid_map_editor_plugin.cpp
+msgid "Give a MeshLibrary resource to this GridMap to use its meshes."
+msgstr ""
+
 #: modules/mono/csharp_script.cpp
 msgid "Class name can't be a reserved keyword"
 msgstr ""
@@ -11113,6 +11622,10 @@ msgid "Create a new variable."
 msgstr "Új %s Létrehozása"
 
 #: modules/visual_script/visual_script_editor.cpp
+msgid "Signals:"
+msgstr "Jelzések:"
+
+#: modules/visual_script/visual_script_editor.cpp
 #, fuzzy
 msgid "Create a new signal."
 msgstr "Új sokszög létrehozása a semmiből."
@@ -11142,12 +11655,37 @@ msgid "Add Function"
 msgstr ""
 
 #: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Delete input port"
+msgstr "Pont eltávolítása"
+
+#: modules/visual_script/visual_script_editor.cpp
 msgid "Add Variable"
 msgstr ""
 
 #: modules/visual_script/visual_script_editor.cpp
 msgid "Add Signal"
 msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Add Input Port"
+msgstr "Bemenet Hozzáadása"
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Add Output Port"
+msgstr "Bemenet Hozzáadása"
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Remove Input Port"
+msgstr "Pont eltávolítása"
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Remove Output Port"
+msgstr "Pont eltávolítása"
 
 #: modules/visual_script/visual_script_editor.cpp
 msgid "Change Expression"
@@ -11190,7 +11728,17 @@ msgid "Add Preload Node"
 msgstr ""
 
 #: modules/visual_script/visual_script_editor.cpp
+msgid "Can't drop nodes because script '%s' is not used in this scene."
+msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
 msgid "Add Node(s) From Tree"
+msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+msgid ""
+"Can't drop properties because script '%s' is not used in this scene.\n"
+"Drop holding 'Shift' to just copy the signature."
 msgstr ""
 
 #: modules/visual_script/visual_script_editor.cpp
@@ -11216,6 +11764,11 @@ msgstr ""
 #: modules/visual_script/visual_script_editor.cpp
 msgid "Connect Nodes"
 msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Disconnect Nodes"
+msgstr "Kapcsolat bontva"
 
 #: modules/visual_script/visual_script_editor.cpp
 #, fuzzy
@@ -11253,6 +11806,27 @@ msgid "Paste VisualScript Nodes"
 msgstr ""
 
 #: modules/visual_script/visual_script_editor.cpp
+msgid "Can't create function with a function node."
+msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+msgid "Can't create function of nodes from nodes of multiple functions."
+msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+msgid "Select at least one node with sequence port."
+msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+msgid "Try to only have one sequence input in selection."
+msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Create Function"
+msgstr "Körvonal Készítése"
+
+#: modules/visual_script/visual_script_editor.cpp
 msgid "Remove Function"
 msgstr ""
 
@@ -11273,16 +11847,33 @@ msgid "Editing Signal:"
 msgstr ""
 
 #: modules/visual_script/visual_script_editor.cpp
-msgid "Base Type:"
-msgstr ""
+#, fuzzy
+msgid "Make Tool:"
+msgstr "Csontok Létrehozása"
 
 #: modules/visual_script/visual_script_editor.cpp
 msgid "Members:"
 msgstr "Tagok:"
 
 #: modules/visual_script/visual_script_editor.cpp
-msgid "Available Nodes:"
-msgstr ""
+#, fuzzy
+msgid "Change Base Type:"
+msgstr "%s Típusának Megváltoztatása"
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Add Nodes..."
+msgstr "%s Hozzáadása..."
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Add Function..."
+msgstr "Ugrás Funkcióra..."
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "function_name"
+msgstr "Funkciók:"
 
 #: modules/visual_script/visual_script_editor.cpp
 msgid "Select or create a function to edit its graph."
@@ -11303,6 +11894,16 @@ msgstr "Node-ok Másolása"
 #: modules/visual_script/visual_script_editor.cpp
 msgid "Cut Nodes"
 msgstr ""
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Make Function"
+msgstr "Funkciók:"
+
+#: modules/visual_script/visual_script_editor.cpp
+#, fuzzy
+msgid "Refresh Graph"
+msgstr "Frissítés"
 
 #: modules/visual_script/visual_script_editor.cpp
 #, fuzzy
@@ -11401,6 +12002,10 @@ msgid "The package must have at least one '.' separator."
 msgstr ""
 
 #: platform/android/export/export.cpp
+msgid "Select device from the list"
+msgstr "Válasszon készüléket a listából"
+
+#: platform/android/export/export.cpp
 msgid "ADB executable not configured in the Editor Settings."
 msgstr ""
 
@@ -11422,7 +12027,8 @@ msgstr ""
 
 #: platform/android/export/export.cpp
 msgid ""
-"Android project is not installed for compiling. Install from Editor menu."
+"Android build template not installed in the project. Install it from the "
+"Project menu."
 msgstr ""
 
 #: platform/android/export/export.cpp
@@ -11467,24 +12073,7 @@ msgid "Identifier is missing."
 msgstr ""
 
 #: platform/iphone/export/export.cpp
-msgid "Identifier segments must be of non-zero length."
-msgstr ""
-
-#: platform/iphone/export/export.cpp
 msgid "The character '%s' is not allowed in Identifier."
-msgstr ""
-
-#: platform/iphone/export/export.cpp
-msgid "A digit cannot be the first character in a Identifier segment."
-msgstr ""
-
-#: platform/iphone/export/export.cpp
-msgid ""
-"The character '%s' cannot be the first character in a Identifier segment."
-msgstr ""
-
-#: platform/iphone/export/export.cpp
-msgid "The Identifier must have at least one '.' separator."
 msgstr ""
 
 #: platform/iphone/export/export.cpp
@@ -11498,6 +12087,10 @@ msgstr "Érvénytelen betűtípus méret."
 
 #: platform/iphone/export/export.cpp
 msgid "Required icon is not specified in the preset."
+msgstr ""
+
+#: platform/javascript/export/export.cpp
+msgid "Stop HTTP Server"
 msgstr ""
 
 #: platform/javascript/export/export.cpp
@@ -11534,7 +12127,17 @@ msgstr ""
 
 #: platform/uwp/export/export.cpp
 #, fuzzy
+msgid "Invalid package short name."
+msgstr "Érvénytelen név."
+
+#: platform/uwp/export/export.cpp
+#, fuzzy
 msgid "Invalid package unique name."
+msgstr "Érvénytelen név."
+
+#: platform/uwp/export/export.cpp
+#, fuzzy
+msgid "Invalid package publisher display name."
 msgstr "Érvénytelen név."
 
 #: platform/uwp/export/export.cpp
@@ -12053,11 +12656,6 @@ msgstr ""
 "gyermekévé, hogy így kapjon méretet. Ellenkező esetben tegye RenderTarget-"
 "té, és állítsa hozzá a belső textúráját valamilyen node-hoz kirajzolásra."
 
-#: scene/resources/visual_shader.cpp
-#, fuzzy
-msgid "Input"
-msgstr "Bemenet Hozzáadása"
-
 #: scene/resources/visual_shader_nodes.cpp
 #, fuzzy
 msgid "Invalid source for preview."
@@ -12088,6 +12686,60 @@ msgstr ""
 #: servers/visual/shader_language.cpp
 msgid "Constants cannot be modified."
 msgstr ""
+
+#~ msgid "Pause the scene"
+#~ msgstr "Szünetelteti a jelenetet"
+
+#~ msgid "Shift+"
+#~ msgstr "Shift+"
+
+#~ msgid "Alt+"
+#~ msgstr "Alt+"
+
+#~ msgid "Control+"
+#~ msgstr "Control+"
+
+#, fuzzy
+#~ msgid "Snap to Grid"
+#~ msgstr "Rácshoz illesztés"
+
+#, fuzzy
+#~ msgid "Add input +"
+#~ msgstr "Bemenet Hozzáadása"
+
+#, fuzzy
+#~ msgid "Input"
+#~ msgstr "Bemenet Hozzáadása"
+
+#, fuzzy
+#~ msgid "Methods:"
+#~ msgstr "Metódusok"
+
+#, fuzzy
+#~ msgid "Theme Properties:"
+#~ msgstr "Tulajdonságok"
+
+#~ msgid "Enumerations:"
+#~ msgstr "Felsorolások:"
+
+#~ msgid "Constants:"
+#~ msgstr "Konstansok:"
+
+#, fuzzy
+#~ msgid "Class Description:"
+#~ msgstr "Leírás:"
+
+#, fuzzy
+#~ msgid "Property Descriptions:"
+#~ msgstr "Tulajdonság Leírása:"
+
+#, fuzzy
+#~ msgid "Method Descriptions:"
+#~ msgstr "Metódus Leírás:"
+
+#, fuzzy
+#~ msgid "Reverse sorting."
+#~ msgstr "Lekérdezés..."
 
 #~ msgid ""
 #~ "Can't open file_type_cache.cch for writing, not saving file type cache!"
@@ -12173,9 +12825,6 @@ msgstr ""
 #~ msgid "Go to parent folder"
 #~ msgstr "Ugrás a szülőmappába"
 
-#~ msgid "Select device from the list"
-#~ msgstr "Válasszon készüléket a listából"
-
 #~ msgid "Open Scene(s)"
 #~ msgstr "Scene(k) megnyitás"
 
@@ -12239,9 +12888,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Splits"
 #~ msgstr "Útvonal Felosztása"
-
-#~ msgid "No name provided"
-#~ msgstr "Nincs név megadva"
 
 #~ msgid "Create Poly"
 #~ msgstr "Sokszög Létrehozása"
@@ -12376,9 +13022,6 @@ msgstr ""
 
 #~ msgid "Move Anim Track Down"
 #~ msgstr "Animáció nyomvonal lefelé mozgatás"
-
-#~ msgid "Set Transitions to:"
-#~ msgstr "Átmenet beállítása erre:"
 
 #~ msgid "Anim Track Rename"
 #~ msgstr "Animáció nyomvonal átnevezés"

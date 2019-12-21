@@ -385,6 +385,7 @@ public:
 	}
 
 	inline int size() const;
+	inline bool empty() const;
 	T get(int p_index) const;
 	void set(int p_index, const T &p_val);
 	void push_back(const T &p_val);
@@ -475,6 +476,12 @@ int PoolVector<T>::size() const {
 }
 
 template <class T>
+bool PoolVector<T>::empty() const {
+
+	return alloc ? alloc->size == 0 : true;
+}
+
+template <class T>
 T PoolVector<T>::get(int p_index) const {
 
 	return operator[](p_index);
@@ -508,7 +515,7 @@ T PoolVector<T>::operator[](int p_index) const {
 template <class T>
 Error PoolVector<T>::resize(int p_size) {
 
-	ERR_FAIL_COND_V(p_size < 0, ERR_INVALID_PARAMETER);
+	ERR_FAIL_COND_V_MSG(p_size < 0, ERR_INVALID_PARAMETER, "Size of PoolVector cannot be negative.");
 
 	if (alloc == NULL) {
 
@@ -536,7 +543,7 @@ Error PoolVector<T>::resize(int p_size) {
 
 	} else {
 
-		ERR_FAIL_COND_V(alloc->lock > 0, ERR_LOCKED); //can't resize if locked!
+		ERR_FAIL_COND_V_MSG(alloc->lock > 0, ERR_LOCKED, "Can't resize PoolVector if locked."); //can't resize if locked!
 	}
 
 	size_t new_size = sizeof(T) * p_size;

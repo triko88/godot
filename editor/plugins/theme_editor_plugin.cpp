@@ -192,7 +192,7 @@ void ThemeEditor::_save_template_cbk(String fname) {
 
 	FileAccess *file = FileAccess::open(filename, FileAccess::WRITE);
 
-	ERR_FAIL_COND_MSG(!file, "Can't save theme to file: " + filename + ".");
+	ERR_FAIL_COND_MSG(!file, "Can't save theme to file '" + filename + "'.");
 
 	file->store_line("; ******************* ");
 	file->store_line("; Template Theme File ");
@@ -870,7 +870,7 @@ ThemeEditor::ThemeEditor() {
 	add_del_dialog->get_ok()->connect("pressed", this, "_dialog_cbk");
 
 	file_dialog = memnew(EditorFileDialog);
-	file_dialog->add_filter("*.theme ; Theme File");
+	file_dialog->add_filter("*.theme ; " + TTR("Theme File"));
 	add_child(file_dialog);
 	file_dialog->connect("file_selected", this, "_save_template_cbk");
 }

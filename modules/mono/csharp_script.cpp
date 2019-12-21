@@ -50,8 +50,10 @@
 
 #include "editor/editor_internal_calls.h"
 #include "godotsharp_dirs.h"
+#include "mono_gd/gd_mono_cache.h"
 #include "mono_gd/gd_mono_class.h"
 #include "mono_gd/gd_mono_marshal.h"
+#include "mono_gd/gd_mono_utils.h"
 #include "signal_awaiter_utils.h"
 #include "utils/macros.h"
 #include "utils/mutex_utils.h"
@@ -126,12 +128,11 @@ void CSharpLanguage::init() {
 	print_line("Run this binary with '--generate-mono-glue path/to/modules/mono/glue'");
 #endif
 
-	gdmono->initialize_load_assemblies();
+	if (gdmono->is_runtime_initialized())
+		gdmono->initialize_load_assemblies();
 
 #ifdef TOOLS_ENABLED
 	EditorNode::add_init_callback(&_editor_init_callback);
-
-	GLOBAL_DEF("mono/export/include_scripts_content", false);
 #endif
 }
 
@@ -545,7 +546,7 @@ Vector<ScriptLanguage::StackInfo> CSharpLanguage::debug_get_current_stack_info()
 #ifdef DEBUG_ENABLED
 	_TLS_RECURSION_GUARD_V_(Vector<StackInfo>());
 
-	if (!gdmono->is_runtime_initialized() || !GDMono::get_singleton()->get_core_api_assembly() || !GDMonoUtils::mono_cache.corlib_cache_updated)
+	if (!gdmono->is_runtime_initialized() || !GDMono::get_singleton()->get_core_api_assembly() || !GDMonoCache::cached_data.corlib_cache_updated)
 		return Vector<StackInfo>();
 
 	MonoObject *stack_trace = mono_object_new(mono_domain_get(), CACHED_CLASS(System_Diagnostics_StackTrace)->get_mono_ptr());
@@ -571,7 +572,7 @@ Vector<ScriptLanguage::StackInfo> CSharpLanguage::stack_trace_get_info(MonoObjec
 
 	MonoException *exc = NULL;
 
-	MonoArray *frames = invoke_method_thunk(CACHED_METHOD_THUNK(System_Diagnostics_StackTrace, GetFrames), p_stack_trace, &exc);
+	MonoArray *frames = CACHED_METHOD_THUNK(System_Diagnostics_StackTrace, GetFrames).invoke(p_stack_trace, &exc);
 
 	if (exc) {
 		GDMonoUtils::debug_print_unhandled_exception(exc);
@@ -583,8 +584,6 @@ Vector<ScriptLanguage::StackInfo> CSharpLanguage::stack_trace_get_info(MonoObjec
 	if (frame_count <= 0)
 		return Vector<StackInfo>();
 
-	GDMonoUtils::DebugUtils_StackFrameInfo get_sf_info = CACHED_METHOD_THUNK(DebuggingUtils, GetStackFrameInfo);
-
 	Vector<StackInfo> si;
 	si.resize(frame_count);
 
@@ -595,7 +594,7 @@ Vector<ScriptLanguage::StackInfo> CSharpLanguage::stack_trace_get_info(MonoObjec
 		MonoString *file_name;
 		int file_line_num;
 		MonoString *method_decl;
-		invoke_method_thunk(get_sf_info, frame, &file_name, &file_line_num, &method_decl, &exc);
+		CACHED_METHOD_THUNK(DebuggingUtils, GetStackFrameInfo).invoke(frame, &file_name, &file_line_num, &method_decl, &exc);
 
 		if (exc) {
 			GDMonoUtils::debug_print_unhandled_exception(exc);
@@ -618,14 +617,14 @@ Vector<ScriptLanguage::StackInfo> CSharpLanguage::stack_trace_get_info(MonoObjec
 void CSharpLanguage::frame() {
 
 	if (gdmono && gdmono->is_runtime_initialized() && gdmono->get_core_api_assembly() != NULL) {
-		const Ref<MonoGCHandle> &task_scheduler_handle = GDMonoUtils::mono_cache.task_scheduler_handle;
+		const Ref<MonoGCHandle> &task_scheduler_handle = GDMonoCache::cached_data.task_scheduler_handle;
 
 		if (task_scheduler_handle.is_valid()) {
 			MonoObject *task_scheduler = task_scheduler_handle->get_target();
 
 			if (task_scheduler) {
 				MonoException *exc = NULL;
-				invoke_method_thunk(CACHED_METHOD_THUNK(GodotTaskScheduler, Activate), task_scheduler, &exc);
+				CACHED_METHOD_THUNK(GodotTaskScheduler, Activate).invoke(task_scheduler, &exc);
 
 				if (exc) {
 					GDMonoUtils::debug_unhandled_exception(exc);
@@ -1079,7 +1078,7 @@ bool CSharpLanguage::overrides_external_editor() {
 void CSharpLanguage::thread_enter() {
 
 #if 0
-	if (mono->is_runtime_initialized()) {
+	if (gdmono->is_runtime_initialized()) {
 		GDMonoUtils::attach_current_thread();
 	}
 #endif
@@ -1088,7 +1087,7 @@ void CSharpLanguage::thread_enter() {
 void CSharpLanguage::thread_exit() {
 
 #if 0
-	if (mono->is_runtime_initialized()) {
+	if (gdmono->is_runtime_initialized()) {
 		GDMonoUtils::detach_current_thread();
 	}
 #endif
@@ -1195,7 +1194,7 @@ void CSharpLanguage::release_script_gchandle(MonoObject *p_expected_obj, Ref<Mon
 
 CSharpLanguage::CSharpLanguage() {
 
-	ERR_FAIL_COND(singleton);
+	ERR_FAIL_COND_MSG(singleton, "C# singleton already exist.");
 	singleton = this;
 
 	finalizing = false;
@@ -3242,7 +3241,7 @@ RES ResourceFormatLoaderCSharpScript::load(const String &p_path, const String &p
 
 #if defined(DEBUG_ENABLED) || defined(TOOLS_ENABLED)
 	Error err = script->load_source_code(p_path);
-	ERR_FAIL_COND_V(err != OK, RES());
+	ERR_FAIL_COND_V_MSG(err != OK, RES(), "Cannot load C# script file '" + p_path + "'.");
 #endif
 
 	script->set_path(p_original_path);
@@ -3325,7 +3324,7 @@ Error ResourceFormatSaverCSharpScript::save(const String &p_path, const RES &p_r
 
 	Error err;
 	FileAccess *file = FileAccess::open(p_path, FileAccess::WRITE, &err);
-	ERR_FAIL_COND_V(err, err);
+	ERR_FAIL_COND_V_MSG(err != OK, err, "Cannot save C# script file '" + p_path + "'.");
 
 	file->store_string(source);
 

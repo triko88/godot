@@ -156,7 +156,7 @@ static Transform _arr_to_xform(const Array &p_array) {
 }
 
 String EditorSceneImporterGLTF::_sanitize_scene_name(const String &name) {
-	RegEx regex("([^a-zA-Z0-9_ ]+)");
+	RegEx regex("([^a-zA-Z0-9_ -]+)");
 	String p_name = regex.sub(name, "", true);
 	return p_name;
 }
@@ -229,8 +229,16 @@ Error EditorSceneImporterGLTF::_parse_scenes(GLTFState &state) {
 
 	ERR_FAIL_COND_V(!state.json.has("scenes"), ERR_FILE_CORRUPT);
 	const Array &scenes = state.json["scenes"];
-	for (int i = 0; i < 1; i++) { //only first scene is imported
-		const Dictionary &s = scenes[i];
+	int loaded_scene = 0;
+	if (state.json.has("scene")) {
+		loaded_scene = state.json["scene"];
+	} else {
+		WARN_PRINT("The load-time scene is not defined in the glTF2 file. Picking the first scene.")
+	}
+
+	if (scenes.size()) {
+		ERR_FAIL_COND_V(loaded_scene >= scenes.size(), ERR_FILE_CORRUPT);
+		const Dictionary &s = scenes[loaded_scene];
 		ERR_FAIL_COND_V(!s.has("nodes"), ERR_UNAVAILABLE);
 		const Array &nodes = s["nodes"];
 		for (int j = 0; j < nodes.size(); j++) {
@@ -494,10 +502,10 @@ Error EditorSceneImporterGLTF::_parse_accessors(GLTFState &state) {
 
 			const Dictionary &s = d["sparse"];
 
-			ERR_FAIL_COND_V(!d.has("count"), ERR_PARSE_ERROR);
-			accessor.sparse_count = d["count"];
-			ERR_FAIL_COND_V(!d.has("indices"), ERR_PARSE_ERROR);
-			const Dictionary &si = d["indices"];
+			ERR_FAIL_COND_V(!s.has("count"), ERR_PARSE_ERROR);
+			accessor.sparse_count = s["count"];
+			ERR_FAIL_COND_V(!s.has("indices"), ERR_PARSE_ERROR);
+			const Dictionary &si = s["indices"];
 
 			ERR_FAIL_COND_V(!si.has("bufferView"), ERR_PARSE_ERROR);
 			accessor.sparse_indices_buffer_view = si["bufferView"];
@@ -508,8 +516,8 @@ Error EditorSceneImporterGLTF::_parse_accessors(GLTFState &state) {
 				accessor.sparse_indices_byte_offset = si["byteOffset"];
 			}
 
-			ERR_FAIL_COND_V(!d.has("values"), ERR_PARSE_ERROR);
-			const Dictionary &sv = d["values"];
+			ERR_FAIL_COND_V(!s.has("values"), ERR_PARSE_ERROR);
+			const Dictionary &sv = s["values"];
 
 			ERR_FAIL_COND_V(!sv.has("bufferView"), ERR_PARSE_ERROR);
 			accessor.sparse_values_buffer_view = sv["bufferView"];
@@ -1487,15 +1495,15 @@ Error EditorSceneImporterGLTF::_parse_materials(GLTFState &state) {
 }
 
 EditorSceneImporterGLTF::GLTFNodeIndex EditorSceneImporterGLTF::_find_highest_node(GLTFState &state, const Vector<GLTFNodeIndex> &subset) {
-	int heighest = -1;
+	int highest = -1;
 	GLTFNodeIndex best_node = -1;
 
 	for (int i = 0; i < subset.size(); ++i) {
 		const GLTFNodeIndex node_i = subset[i];
 		const GLTFNode *node = state.nodes[node_i];
 
-		if (heighest == -1 || node->height < heighest) {
-			heighest = node->height;
+		if (highest == -1 || node->height < highest) {
+			highest = node->height;
 			best_node = node_i;
 		}
 	}
@@ -1656,6 +1664,14 @@ Error EditorSceneImporterGLTF::_expand_skin(GLTFState &state, GLTFSkin &skin) {
 }
 
 Error EditorSceneImporterGLTF::_verify_skin(GLTFState &state, GLTFSkin &skin) {
+
+	// This may seem duplicated from expand_skins, but this is really a sanity check! (so it kinda is)
+	// In case additional interpolating logic is added to the skins, this will help ensure that you
+	// do not cause it to self implode into a fiery blaze
+
+	// We are going to re-calculate the root nodes and compare them to the ones saved in the skin,
+	// then ensure the multiple trees (if they exist) are on the same sublevel
+
 	// Grab all nodes that lay in between skin joints/nodes
 	DisjointSet<GLTFNodeIndex> disjoint_set;
 
@@ -1673,15 +1689,28 @@ Error EditorSceneImporterGLTF::_verify_skin(GLTFState &state, GLTFSkin &skin) {
 		}
 	}
 
+	Vector<GLTFNodeIndex> out_owners;
+	disjoint_set.get_representatives(out_owners);
+
 	Vector<GLTFNodeIndex> out_roots;
-	disjoint_set.get_representatives(out_roots);
+
+	for (int i = 0; i < out_owners.size(); ++i) {
+		Vector<GLTFNodeIndex> set;
+		disjoint_set.get_members(set, out_owners[i]);
+
+		const GLTFNodeIndex root = _find_highest_node(state, set);
+		ERR_FAIL_COND_V(root < 0, FAILED);
+		out_roots.push_back(root);
+	}
+
 	out_roots.sort();
 
 	ERR_FAIL_COND_V(out_roots.size() == 0, FAILED);
 
+	// Make sure the roots are the exact same (they better be)
 	ERR_FAIL_COND_V(out_roots.size() != skin.roots.size(), FAILED);
 	for (int i = 0; i < out_roots.size(); ++i) {
-		ERR_FAIL_COND_V(out_roots.size() != skin.roots.size(), FAILED);
+		ERR_FAIL_COND_V(out_roots[i] != skin.roots[i], FAILED);
 	}
 
 	// Single rooted skin? Perfectly ok!
@@ -1952,7 +1981,7 @@ Error EditorSceneImporterGLTF::_reparent_to_fake_joint(GLTFState &state, GLTFSke
 	state.nodes.push_back(fake_joint);
 
 	// We better not be a joint, or we messed up in our logic
-	if (node->joint == true)
+	if (node->joint)
 		return FAILED;
 
 	fake_joint->translation = node->translation;
@@ -2114,7 +2143,6 @@ Error EditorSceneImporterGLTF::_create_skeletons(GLTFState &state) {
 
 			skeleton->add_bone(node->name);
 			skeleton->set_bone_rest(bone_index, node->xform);
-			skeleton->set_bone_pose(bone_index, node->xform);
 
 			if (node->parent >= 0 && state.nodes[node->parent]->skeleton == skel_i) {
 				const int bone_parent = skeleton->find_bone(state.nodes[node->parent]->name);
@@ -2295,7 +2323,7 @@ Error EditorSceneImporterGLTF::_parse_animations(GLTFState &state) {
 		Array samplers = d["samplers"];
 
 		if (d.has("name")) {
-			animation.name = d["name"];
+			animation.name = _sanitize_scene_name(d["name"]);
 		}
 
 		for (int j = 0; j < channels.size(); j++) {
@@ -2335,6 +2363,7 @@ Error EditorSceneImporterGLTF::_parse_animations(GLTFState &state) {
 			const int output = s["output"];
 
 			GLTFAnimation::Interpolation interp = GLTFAnimation::INTERP_LINEAR;
+			int output_count = 1;
 			if (s.has("interpolation")) {
 				const String &in = s["interpolation"];
 				if (in == "STEP") {
@@ -2343,8 +2372,10 @@ Error EditorSceneImporterGLTF::_parse_animations(GLTFState &state) {
 					interp = GLTFAnimation::INTERP_LINEAR;
 				} else if (in == "CATMULLROMSPLINE") {
 					interp = GLTFAnimation::INTERP_CATMULLROMSPLINE;
+					output_count = 3;
 				} else if (in == "CUBICSPLINE") {
 					interp = GLTFAnimation::INTERP_CUBIC_SPLINE;
+					output_count = 3;
 				}
 			}
 
@@ -2374,6 +2405,9 @@ Error EditorSceneImporterGLTF::_parse_animations(GLTFState &state) {
 
 				track->weight_tracks.resize(wc);
 
+				const int expected_value_count = times.size() * output_count * wc;
+				ERR_FAIL_COND_V_MSG(weights.size() != expected_value_count, ERR_PARSE_ERROR, "Invalid weight data, expected " + itos(expected_value_count) + " weight values, got " + itos(weights.size()) + " instead.");
+
 				const int wlen = weights.size() / wc;
 				PoolVector<float>::Read r = weights.read();
 				for (int k = 0; k < wc; k++) { //separate tracks, having them together is not such a good idea
@@ -2390,14 +2424,14 @@ Error EditorSceneImporterGLTF::_parse_animations(GLTFState &state) {
 					track->weight_tracks.write[k] = cf;
 				}
 			} else {
-				WARN_PRINTS("Invalid path: " + path);
+				WARN_PRINTS("Invalid path '" + path + "'.");
 			}
 		}
 
 		state.animations.push_back(animation);
 	}
 
-	print_verbose("glTF: Total animations: " + itos(state.animations.size()));
+	print_verbose("glTF: Total animations '" + itos(state.animations.size()) + "'.");
 
 	return OK;
 }
@@ -2472,9 +2506,9 @@ Camera *EditorSceneImporterGLTF::_generate_camera(GLTFState &state, Node *scene_
 
 	const GLTFCamera &c = state.cameras[gltf_node->camera];
 	if (c.perspective) {
-		camera->set_perspective(c.fov_size, c.znear, c.znear);
+		camera->set_perspective(c.fov_size, c.znear, c.zfar);
 	} else {
-		camera->set_orthogonal(c.fov_size, c.znear, c.znear);
+		camera->set_orthogonal(c.fov_size, c.znear, c.zfar);
 	}
 
 	return camera;

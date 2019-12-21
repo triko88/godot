@@ -64,6 +64,8 @@ public:
 	Dictionary environment;
 
 	CharFXTransform();
+	~CharFXTransform();
+
 	uint64_t get_relative_index() { return relative_index; }
 	void set_relative_index(uint64_t p_index) { relative_index = p_index; }
 	uint64_t get_absolute_index() { return absolute_index; }
@@ -80,8 +82,6 @@ public:
 	void set_character(int p_char) { character = (CharType)p_char; }
 	Dictionary get_environment() { return environment; }
 	void set_environment(Dictionary p_environment) { environment = p_environment; }
-
-	Variant get_value_or(String p_key, Variant p_default_value);
 };
 
 #endif // RICH_TEXT_EFFECT_H

@@ -165,7 +165,7 @@ Error read_all_file_utf8(const String &p_path, String &r_content) {
 	PoolVector<uint8_t> sourcef;
 	Error err;
 	FileAccess *f = FileAccess::open(p_path, FileAccess::READ, &err);
-	ERR_FAIL_COND_V(err != OK, err);
+	ERR_FAIL_COND_V_MSG(err != OK, err, "Cannot open file '" + p_path + "'.");
 
 	int len = f->get_len();
 	sourcef.resize(len + 1);
@@ -216,6 +216,25 @@ String str_format(const char *p_format, ...) {
 #endif
 
 String str_format(const char *p_format, va_list p_list) {
+	char *buffer = str_format_new(p_format, p_list);
+
+	String res(buffer);
+	memdelete_arr(buffer);
+
+	return res;
+}
+
+char *str_format_new(const char *p_format, ...) {
+	va_list list;
+
+	va_start(list, p_format);
+	char *res = str_format_new(p_format, list);
+	va_end(list);
+
+	return res;
+}
+
+char *str_format_new(const char *p_format, va_list p_list) {
 	va_list list;
 
 	va_copy(list, p_list);
@@ -230,8 +249,5 @@ String str_format(const char *p_format, va_list p_list) {
 	gd_vsnprintf(buffer, len, p_format, list);
 	va_end(list);
 
-	String res(buffer);
-	memdelete_arr(buffer);
-
-	return res;
+	return buffer;
 }

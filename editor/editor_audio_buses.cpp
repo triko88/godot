@@ -88,7 +88,7 @@ void EditorAudioBus::_notification(int p_what) {
 			bypass->set_icon(get_icon("AudioBusBypass", "EditorIcons"));
 			bypass->add_color_override("icon_color_pressed", bypass_color);
 
-			bus_options->set_icon(get_icon("GuiMiniTabMenu", "EditorIcons"));
+			bus_options->set_icon(get_icon("GuiTabMenu", "EditorIcons"));
 
 			update_bus();
 			set_process(true);
@@ -180,7 +180,7 @@ void EditorAudioBus::_notification(int p_what) {
 			mute->set_icon(get_icon("AudioBusMute", "EditorIcons"));
 			bypass->set_icon(get_icon("AudioBusBypass", "EditorIcons"));
 
-			bus_options->set_icon(get_icon("GuiMiniTabMenu", "EditorIcons"));
+			bus_options->set_icon(get_icon("GuiTabMenu", "EditorIcons"));
 		} break;
 		case NOTIFICATION_MOUSE_EXIT:
 		case NOTIFICATION_DRAG_END: {
@@ -1329,7 +1329,8 @@ EditorAudioBuses::EditorAudioBuses() {
 	add_child(top_hb);
 
 	file = memnew(Label);
-	file->set_text(String(TTR("Layout")) + ": " + "default_bus_layout.tres");
+	String layout_path = ProjectSettings::get_singleton()->get("audio/default_bus_layout");
+	file->set_text(String(TTR("Layout")) + ": " + layout_path.get_file());
 	file->set_clip_text(true);
 	file->set_h_size_flags(SIZE_EXPAND_FILL);
 	top_hb->add_child(file);

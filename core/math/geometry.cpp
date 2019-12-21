@@ -97,8 +97,6 @@ void Geometry::MeshData::optimize_vertices() {
 	vertices = new_vertices;
 }
 
-Vector<Vector<Vector2> > (*Geometry::_decompose_func)(const Vector<Vector2> &p_polygon) = NULL;
-
 struct _FaceClassify {
 
 	struct _Link {
@@ -241,10 +239,7 @@ PoolVector<PoolVector<Face3> > Geometry::separate_objects(PoolVector<Face3> p_ar
 
 	bool error = _connect_faces(_fcptr, len, -1);
 
-	if (error) {
-
-		ERR_FAIL_COND_V(error, PoolVector<PoolVector<Face3> >()); // Invalid geometry.
-	}
+	ERR_FAIL_COND_V_MSG(error, PoolVector<PoolVector<Face3> >(), "Invalid geometry.");
 
 	// Group connected faces in separate objects.
 
@@ -1161,7 +1156,7 @@ Vector<Vector<Point2> > Geometry::_polypath_offset(const Vector<Point2> &p_polyp
 		case END_SQUARE: et = etOpenSquare; break;
 		case END_ROUND: et = etOpenRound; break;
 	}
-	ClipperOffset co;
+	ClipperOffset co(2.0, 0.25 * SCALE_FACTOR); // Defaults from ClipperOffset.
 	Path path;
 
 	// Need to scale points (Clipper's requirement for robust computation).

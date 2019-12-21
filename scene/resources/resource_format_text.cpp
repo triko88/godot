@@ -1225,7 +1225,7 @@ Ref<ResourceInteractiveLoader> ResourceFormatLoaderText::load_interactive(const 
 	Error err;
 	FileAccess *f = FileAccess::open(p_path, FileAccess::READ, &err);
 
-	ERR_FAIL_COND_V(err != OK, Ref<ResourceInteractiveLoader>());
+	ERR_FAIL_COND_V_MSG(err != OK, Ref<ResourceInteractiveLoader>(), "Cannot open file '" + p_path + "'.");
 
 	Ref<ResourceInteractiveLoaderText> ria = memnew(ResourceInteractiveLoaderText);
 	String path = p_original_path != "" ? p_original_path : p_path;
@@ -1321,7 +1321,7 @@ Error ResourceFormatLoaderText::convert_file_to_binary(const String &p_src_path,
 	Error err;
 	FileAccess *f = FileAccess::open(p_src_path, FileAccess::READ, &err);
 
-	ERR_FAIL_COND_V(err != OK, ERR_CANT_OPEN);
+	ERR_FAIL_COND_V_MSG(err != OK, ERR_CANT_OPEN, "Cannot open file '" + p_src_path + "'.");
 
 	Ref<ResourceInteractiveLoaderText> ria = memnew(ResourceInteractiveLoaderText);
 	const String &path = p_src_path;
@@ -1459,20 +1459,6 @@ void ResourceFormatSaverTextInstance::_find_resources(const Variant &p_variant, 
 	}
 }
 
-static String _valprop(const String &p_name) {
-
-	// Escape and quote strings with extended ASCII or further Unicode characters
-	// as well as '"', '=' or ' ' (32)
-	const CharType *cstr = p_name.c_str();
-	for (int i = 0; cstr[i]; i++) {
-		if (cstr[i] == '=' || cstr[i] == '"' || cstr[i] < 33 || cstr[i] > 126) {
-			return "\"" + p_name.c_escape_multiline() + "\"";
-		}
-	}
-	// Keep as is
-	return p_name;
-}
-
 Error ResourceFormatSaverTextInstance::save(const String &p_path, const RES &p_resource, uint32_t p_flags) {
 
 	if (p_path.ends_with(".tscn")) {
@@ -1481,7 +1467,7 @@ Error ResourceFormatSaverTextInstance::save(const String &p_path, const RES &p_r
 
 	Error err;
 	f = FileAccess::open(p_path, FileAccess::WRITE, &err);
-	ERR_FAIL_COND_V(err, ERR_CANT_OPEN);
+	ERR_FAIL_COND_V_MSG(err, ERR_CANT_OPEN, "Cannot save file '" + p_path + "'.");
 	FileAccessRef _fref(f);
 
 	local_path = ProjectSettings::get_singleton()->localize_path(p_path);
@@ -1675,7 +1661,7 @@ Error ResourceFormatSaverTextInstance::save(const String &p_path, const RES &p_r
 
 				String vars;
 				VariantWriter::write_to_string(value, vars, _write_resources, this);
-				f->store_string(_valprop(name) + " = " + vars + "\n");
+				f->store_string(name.property_name_encode() + " = " + vars + "\n");
 			}
 		}
 
@@ -1747,7 +1733,7 @@ Error ResourceFormatSaverTextInstance::save(const String &p_path, const RES &p_r
 				String vars;
 				VariantWriter::write_to_string(state->get_node_property_value(i, j), vars, _write_resources, this);
 
-				f->store_string(_valprop(String(state->get_node_property_name(i, j))) + " = " + vars + "\n");
+				f->store_string(String(state->get_node_property_name(i, j)).property_name_encode() + " = " + vars + "\n");
 			}
 
 			if (i < state->get_node_count() - 1)

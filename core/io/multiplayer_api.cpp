@@ -602,7 +602,16 @@ void MultiplayerAPI::_add_peer(int p_id) {
 
 void MultiplayerAPI::_del_peer(int p_id) {
 	connected_peers.erase(p_id);
-	path_get_cache.erase(p_id); // I no longer need your cache, sorry.
+	// Cleanup get cache.
+	path_get_cache.erase(p_id);
+	// Cleanup sent cache.
+	// Some refactoring is needed to make this faster and do paths GC.
+	List<NodePath> keys;
+	path_send_cache.get_key_list(&keys);
+	for (List<NodePath>::Element *E = keys.front(); E; E = E->next()) {
+		PathSentCache *psc = path_send_cache.getptr(E->get());
+		psc->confirmed_peers.erase(p_id);
+	}
 	emit_signal("network_peer_disconnected", p_id);
 }
 
@@ -917,8 +926,7 @@ int MultiplayerAPI::_get_bandwidth_usage(const Vector<BandwidthFrame> &p_buffer,
 		i = (i + p_buffer.size() - 1) % p_buffer.size();
 	}
 
-	ERR_EXPLAIN("Reached the end of the bandwidth profiler buffer, values might be inaccurate.");
-	ERR_FAIL_COND_V(i == p_pointer, total_bandwidth);
+	ERR_FAIL_COND_V_MSG(i == p_pointer, total_bandwidth, "Reached the end of the bandwidth profiler buffer, values might be inaccurate.");
 	return total_bandwidth;
 }
 
