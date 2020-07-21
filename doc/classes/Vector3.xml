@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="Vector3" category="Built-In Types" version="3.2">
+<class name="Vector3" version="4.0">
 	<brief_description>
-		Vector used for 3D math.
+		Vector used for 3D math using floating point coordinates.
 	</brief_description>
 	<description>
 		3-element structure that can be used to represent positions in 3D space or any other pair of numeric values.
+		It uses floating-point coordinates. See [Vector3i] for its integer counterpart.
+		[b]Note:[/b] In a boolean context, a Vector3 will evaluate to [code]false[/code] if it's equal to [code]Vector3(0, 0, 0)[/code]. Otherwise, a Vector3 will always evaluate to [code]true[/code].
 	</description>
 	<tutorials>
 		<link>https://docs.godotengine.org/en/latest/tutorials/math/index.html</link>
 	</tutorials>
 	<methods>
+		<method name="Vector3">
+			<return type="Vector3">
+			</return>
+			<argument index="0" name="from" type="Vector3i">
+			</argument>
+			<description>
+				Constructs a new [Vector3] from [Vector3i].
+			</description>
+		</method>
 		<method name="Vector3">
 			<return type="Vector3">
 			</return>
@@ -20,7 +31,7 @@
 			<argument index="2" name="z" type="float">
 			</argument>
 			<description>
-				Returns a Vector3 with the given components.
+				Returns a [Vector3] with the given components.
 			</description>
 		</method>
 		<method name="abs">
@@ -112,7 +123,10 @@
 			<argument index="0" name="b" type="Vector3">
 			</argument>
 			<description>
-				Returns the dot product with [code]b[/code].
+				Returns the dot product with vector [code]b[/code]. This can be used to compare the angle between two vectors. For example, this can be used to determine whether an enemy is facing the player.
+				The dot product will be [code]0[/code] for a straight angle (90 degrees), greater than 0 for angles narrower than 90 degrees and lower than 0 for angles wider than 90 degrees.
+				When using unit (normalized) vectors, the result will always be between [code]-1.0[/code] (180 degree angle) when the vectors are facing opposite directions, and [code]1.0[/code] (0 degree angle) when the vectors are aligned.
+				[b]Note:[/b] [code]a.dot(b)[/code] is equivalent to [code]b.dot(a)[/code].
 			</description>
 		</method>
 		<method name="floor">
@@ -159,7 +173,7 @@
 				Returns the vector's length squared. Prefer this function over [method length] if you need to sort vectors or need the squared length for some formula.
 			</description>
 		</method>
-		<method name="linear_interpolate">
+		<method name="lerp">
 			<return type="Vector3">
 			</return>
 			<argument index="0" name="b" type="Vector3">
@@ -299,7 +313,7 @@
 			<argument index="0" name="by" type="Vector3">
 			</argument>
 			<description>
-				Returns a copy of the vector snapped to the lowest neared multiple.
+				Returns the vector snapped to a grid with the given size.
 			</description>
 		</method>
 		<method name="to_diagonal_matrix">
